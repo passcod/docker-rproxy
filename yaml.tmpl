@@ -1,0 +1,37 @@
+---
+{{ range $_, $cont := $ }}
+  {{ $addrLen := len $cont.Addresses }}
+  {{ $envLen := len $cont.Env }}
+  {{ $regLen := len $cont.Image.Registry }}
+  - :id: "{{ $cont.ID }}"
+    {{ if eq $addrLen 0 }}
+    :addresses: ~
+    {{ else }}
+    :addresses:
+      {{ range $i, $addr := $cont.Addresses }}
+      - :ip: "{{ $addr.IP }}"
+        :port: {{ $addr.Port }}
+        :host_port: {{ $addr.HostPort }}
+      {{ end }}
+    {{ end }}
+    {{ if eq $envLen 0 }}
+    :env: ~
+    {{ else }}
+    :env:
+      {{ range $key, $value := $cont.Env }}
+      :{{ $key }}: "{{ $value }}"
+      {{ end }}
+    {{ end }}
+    :gateway: "{{ $cont.Gateway }}"
+    :image:
+      {{ with $image := $cont.Image }}
+      {{ if eq $regLen 0 }}
+      :registry: ~
+      {{ else }}
+      :registry: "{{ $image.Registry }}"
+      {{ end }}
+      :repository: {{ $image.Repository }}
+      :tag: "{{ $image.Tag }}"
+      {{ end }}
+    :name: {{ $cont.Name }}
+{{ end }}
