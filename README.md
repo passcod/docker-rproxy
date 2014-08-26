@@ -94,6 +94,6 @@ $ docker run -Pde RPROXY=tcp://ssh:22,tcp://ssh:443 jovial/sshd
 $ docker run -Pde RPROXY=http://example.com:0 ecstatic/turing
 ```
 
-## Behind the scenes
+## Under the covers
 
 TODO

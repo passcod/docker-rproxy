@@ -1,0 +1,20 @@
+frontend http
+  mode http
+  <% ports[:http].each do |port| %>
+  bind :<%= port %>
+  <% end %>
+
+frontend tcp
+  mode tcp
+  <% ports[:tcp].each do |port| %>
+  bind :<%= port %>
+  <% end %>
+
+<% (configs[:http].merge configs[:tcp]).each do |conf, conts| %>
+backend <%= _.slug conf %>
+  <% conts.each do |cont|
+    next if cont[:addresses].nil?
+    addr = cont[:addresses][0] %>
+  server <%= cont[:name] %> <%= addr[:ip] %>:<%= conf.port %>
+  <% end %>
+<% end %>
