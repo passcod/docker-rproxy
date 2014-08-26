@@ -88,10 +88,6 @@ $ docker run -Pde RPROXY=tcp://znc:6667,tcp://znc:6697 mad/znc
 
 # A SSHd on multiple ports for e.g. firewall punching
 $ docker run -Pde RPROXY=tcp://ssh:22,tcp://ssh:443 jovial/sshd
-
-# On Unix systems, port 0 will use a random available port,
-# although I'm not sure what the use of that would be.
-$ docker run -Pde RPROXY=http://example.com:0 ecstatic/turing
 ```
 
 ## Under the covers
