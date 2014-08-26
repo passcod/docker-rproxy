@@ -15,10 +15,16 @@ Just run the [docker image]:
 
 ```bash
 $ docker pull passcod/rproxy
-$ docker run -dP passcod/rproxy
+$ docker run -d --net=host passcod/rproxy
 ```
 
+`--net=host` will fail under the default backend until
+[docker/docker#6887] is released, so you'll probably want to
+install LXC and run the Docker daemon with the `-e lxc` option
+(or build Docker from master).
+
 [docker image]: https://registry.hub.docker.com/u/passcod/rproxy
+[docker/docker#6887]: https://github.com/docker/docker/issues/6887
 
 ## Usage
 
