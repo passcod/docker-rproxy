@@ -18,12 +18,10 @@ class K_
     URI conf
   end
 
-  def slug(conf)
-    [
-      conf.scheme,
-      conf.hostname.gsub('-', '_'),
-      conf.port
-    ].join '_'
+  def slug(conf, with_scheme = true)
+    s = [conf.hostname.gsub('.', '_'), conf.port]
+    s.unshift(conf.scheme) if with_scheme
+    s.join '_'
   end
 
   memoize :parse, :slug

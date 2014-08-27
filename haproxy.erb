@@ -4,11 +4,30 @@ frontend http
   bind :<%= port %>
   <% end %>
 
+  <% configs[:http].each do |conf, conts| %>
+  acl <%= _.slug conf, false %>-port dst_port eq <%= conf.port %>
+  acl <%= _.slug conf, false %>-uri base_reg -i ^([^/]*.)?<%= Regexp.escape "#{conf.host}#{conf.path}" %>
+  <% end %>
+
+  <% configs[:http].each do |conf, _| %>
+  use_backend <%= _.slug conf %> if <%= _.slug conf, false %>-port <%= _.slug conf, false %>-uri
+  <% end %>
+
+
 frontend tcp
   mode tcp
   <% ports[:tcp].each do |port| %>
   bind :<%= port %>
   <% end %>
+
+  <% configs[:tcp].each do |conf, conts| %>
+  acl <%= _.slug conf, false %> dst_port eq <%= conf.port %>
+  <% end %>
+
+  <% configs[:tcp].each do |conf, _| %>
+  use_backend <%= _.slug conf %> if <%= _.slug conf, false %>
+  <% end %>
+
 
 <% (configs[:http].merge configs[:tcp]).each do |conf, conts| %>
 backend <%= _.slug conf %>
