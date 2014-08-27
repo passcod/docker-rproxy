@@ -92,4 +92,71 @@ $ docker run -Pde RPROXY=tcp://ssh:22,tcp://ssh:443 jovial/sshd
 
 ## Under the covers
 
-TODO
+RProxy uses [HAProxy] with a configuration generated using
+[docker-gen] and a custom Ruby script via a docker-gen-to-YAML
+template, so that whenever a container is started or stopped,
+the configuration changes and HAProxy is reloaded.
+
+Each **scheme** (TCP and HTTP) is given a single `frontend`
+section, bound to every port necessary for that scheme, and from
+then on, `acl`s are used to route things around. Each `acl` rule
+has a small memory cost, but uses negligible additional CPU. The
+difference between the frontends come from the diversity of the
+routing criterion (TCP uses *port* filters only, while HTTP may
+use both *port*, *host*, and *path* filters), and from the speed
+of the matching. __TCP is faster.__ When using HTTP mode, the
+entire buffer has to be waited on and parsed before the filters
+can be checked, as these are Layer 7 concerns. *Ports* are a
+Layer 4 concern, and can be checked earlier, without waiting for
+nor parsing a full buffer.
+
+Each **config** (a config is a distinct `scheme://host:port/path`
+item and its associated containers) is given a single `backend`
+and the associated containers are listed within that as `server`s,
+to be load-balanced (by default, using the `roundrobin` method).
+
+That's all there is to the proxy side. The Docker side has a few
+more elements:
+
+- The RProxy image is run with `--net=host`, which means it *uses
+  the host's network stack*. That makes it dead simple to set up
+  for simple infrastructure, as you don't need to mess with
+  anything else to get it to listen to the outside world. In more
+  complex scenarios you may want not to use `--net=host` and
+  instead use your own networking solution. Be aware however in
+  that case that the image *doesn't* `EXPOSE` anything, and that
+  ports used *will* change depending on which containers run.
+
+- The image uses a Procfile with `forego` to run the services.
+  This wasn't a deliberate decision and if you think (present your
+  arguments in this case!) that a change may be beneficial, then
+  please [file a bug].
+
+- For docker-gen to pick up the IP address of a container, it
+  *must* have an exposed or published port. It doesn't matter
+  which, and it doesn't even matter if that isn't the correct
+  port (which is why the fake examples above use `-P`): RProxy
+  operates only using *explicit* instructions, i.e. if a **config**
+  isn't specified in the `RPROXY` env variable for the port you
+  want RProxy to handle, it won't magically pick it up. It won't
+  even bother guessing. You *have* to tell it to.
+
+- The *host* and *path* filters, and really the entire HTTP stack,
+  are there mostly for convenience. If you need truly flexible
+  reverse proxying or filtering for some ports, it is completely
+  ok to have a secondary reverse proxy (e.g. nginx) sitting behind
+  RProxy. However, you'll be in charge of routing things to the
+  containers they belong to yourself, unless you want to be crazy
+  and *route the secondary proxy's traffic back into RProxy*.
+  That's probably totally possible but really really untested.
+
+[HAProxy]: http://www.haproxy.org/
+[docker-gen]: https://github.com/jwilder/docker-gen/
+[file a bug]: https://github.com/passcod/docker-rproxy/issues/new
+
+## Community
+
+- RProxy is released in the Public Domain!
+- Pull requests are welcome!
+- Comments and bug reports are awesome!
+- This is my first docker-related project and may be full of bugs!
