@@ -15,7 +15,7 @@ Just run the [docker image]:
 
 ```bash
 $ docker pull passcod/rproxy
-$ docker run -d --net=host passcod/rproxy
+$ docker run -d --net=host -v /var/run/docker.sock:/tmp/docker.sock passcod/rproxy
 ```
 
 `--net=host` will fail under the default backend until
