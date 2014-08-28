@@ -16,6 +16,7 @@ frontend http
 
 frontend tcp
   mode tcp
+  option tcplog
   <% ports[:tcp].each do |port| %>
   bind :<%= port %>
   <% end %>
