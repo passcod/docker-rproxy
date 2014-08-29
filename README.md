@@ -7,7 +7,21 @@ solution that covers both multiple HTTP services on multiple
 ports, as well as TCP services. It can also distribute incoming
 HTTP traffic based on a path prefix or hostnames.
 
+_This probably shouldn't be used for medium- or large- scale
+deployments, or for anything where high availability, and other
+entreprise/production concerns, are needed. For these, better
+solutions such as [Consul], [etcd], [Serf], [SkyDNS],
+[SmartStack], [ZooKeeper]… should be used._
+
 [nginx-proxy]: https://github.com/jwilder/nginx-proxy/
+
+[Consul]: http://www.consul.io/
+[doozerd]: https://github.com/ha/doozerd
+[etcd]: https://github.com/coreos/etcd
+[Serf]: http://www.serfdom.io/
+[SkyDNS]: https://github.com/skynetservices/skydns
+[SmartStack]: http://nerds.airbnb.com/smartstack-service-discovery-cloud/
+[ZooKeeper]: https://zookeeper.apache.org/
 
 ## Install
 
