@@ -1,34 +1,30 @@
 #> RProxy - Flexible, automagical reverse proxy for Docker.
 #? https://github.com/passcod/docker-rproxy
-FROM dockerfile/haproxy
+FROM base/devel:minimal
 MAINTAINER Félix Saparelli me@passcod.name
 
-# Remove haproxy invocation from setup script
-RUN head -n-2 /haproxy-start > /setup
-RUN rm /haproxy-start
-RUN chmod +x /setup
+# Deps
+RUN pacman -Sy --noconfirm --needed --noprogressbar ruby linux-headers
 
-# Set up volume as in base image
-VOLUME ["/data", "/haproxy-override"]
+# HAProxy
+ADD https://aur.archlinux.org/packages/ha/haproxy/haproxy.tar.gz /tmp/
+RUN cd /tmp/ && tar xzvf haproxy.tar.gz && cd haproxy && makepkg --asroot -si --noconfirm && rm -rf /tmp/haproxy*
+VOLUME ["/data", "/override"]
 
-# Set up pwd
-RUN mkdir /app
+# Files
+ADD ./app /app
+ADD ./haproxy /etc/haproxy/
+ADD ./root /
+
+# Docker-gen
+ADD https://github.com/jwilder/docker-gen/releases/download/0.3.3/docker-gen-linux-amd64-0.3.3.tar.gz /docker-gen.tar.gz
+RUN tar xzvf docker-gen.tar.gz && mv docker-gen /usr/bin/docker-gen && rm docker-gen.tar.gz
+
+# RProxy
+RUN gem install --no-rdoc --no-ri foreman memoist
+
+# Cleanup
+RUN /cleanup && rm /cleanup
+
 WORKDIR /app
-
-# Install deps
-RUN apt-get -y install ruby
-RUN gem install memoist
-RUN wget -P /usr/local/bin https://godist.herokuapp.com/projects/ddollar/forego/releases/current/linux-amd64/forego
-RUN chmod u+x /usr/local/bin/forego
-RUN wget https://github.com/jwilder/docker-gen/releases/download/0.3.3/docker-gen-linux-amd64-0.3.3.tar.gz
-RUN tar xvzf docker-gen-linux-amd64-0.3.3.tar.gz
-
-# Set up scripts
-ADD . /app
-ADD haproxy.cfg /etc/haproxy/haproxy.cfg
-
-# For docker-gen
-ENV DOCKER_HOST unix:///tmp/docker.sock
-
-# Go for it
-CMD ["bash", "/app/start.sh"]
+CMD ["/app/start"]
