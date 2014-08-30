@@ -141,7 +141,7 @@ more elements:
   that case that the image *doesn't* `EXPOSE` anything, and that
   ports used *will* change depending on which containers run.
 
-- The image uses a Procfile with `forego` to run the services.
+- The image uses a Procfile with `foreman` to run the services.
   This wasn't a deliberate decision and if you think (present your
   arguments in this case!) that a change may be beneficial, then
   please [file a bug].
