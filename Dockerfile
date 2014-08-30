@@ -26,5 +26,4 @@ RUN gem install --no-rdoc --no-ri foreman memoist
 # Cleanup
 RUN /cleanup && rm /cleanup
 
-WORKDIR /app
-CMD ["/app/start"]
+CMD ["/start"]
