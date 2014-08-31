@@ -11,17 +11,17 @@ ADD https://aur.archlinux.org/packages/ha/haproxy/haproxy.tar.gz /tmp/
 RUN cd /tmp/ && tar xzvf haproxy.tar.gz && cd haproxy && makepkg --asroot -si --noconfirm && rm -rf /tmp/haproxy*
 VOLUME ["/data", "/override"]
 
-# Files
-ADD ./app /app
-ADD ./haproxy /etc/haproxy/
-ADD ./root /
-
 # Docker-gen
 ADD https://github.com/jwilder/docker-gen/releases/download/0.3.3/docker-gen-linux-amd64-0.3.3.tar.gz /docker-gen.tar.gz
 RUN tar xzvf docker-gen.tar.gz && mv docker-gen /usr/bin/docker-gen && rm docker-gen.tar.gz
 
 # RProxy
 RUN gem install --no-rdoc --no-ri foreman memoist
+
+# Files
+ADD ./app /app
+ADD ./haproxy /etc/haproxy/
+ADD ./root /
 
 # Cleanup
 RUN /cleanup && rm /cleanup
