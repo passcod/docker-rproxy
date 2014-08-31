@@ -25,7 +25,7 @@ frontend tcp
   acl <%= _.slug conf, false %> dst_port eq <%= conf.port %>
   <% end %>
 
-  <% configs[:tcp].each do |conf, _| %>
+  <% configs[:tcp].each do |conf, conts| %>
   use_backend <%= _.slug conf %> if <%= _.slug conf, false %>
   <% end %>
 
