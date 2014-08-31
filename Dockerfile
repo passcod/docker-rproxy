@@ -9,6 +9,7 @@ RUN pacman -Sy --noconfirm --needed --noprogressbar ruby linux-headers
 # HAProxy
 ADD https://aur.archlinux.org/packages/ha/haproxy/haproxy.tar.gz /tmp/
 RUN cd /tmp/ && tar xzvf haproxy.tar.gz && cd haproxy && makepkg --asroot -si --noconfirm && rm -rf /tmp/haproxy*
+RUN mkdir /var/lib/haproxy
 VOLUME ["/data", "/override"]
 
 # Docker-gen
