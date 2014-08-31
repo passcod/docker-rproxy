@@ -1,3 +1,5 @@
+#!/usr/bin/ruby
+
 require 'erb'
 require 'json'
 require 'memoist'

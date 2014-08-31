@@ -138,13 +138,8 @@ more elements:
   anything else to get it to listen to the outside world. In more
   complex scenarios you may want not to use `--net=host` and
   instead use your own networking solution. Be aware however in
-  that case that the image *doesn't* `EXPOSE` anything, and that
+  that case that the image *only* `EXPOSE`s port `1/tcp`, and that
   ports used *will* change depending on which containers run.
-
-- The image uses a Procfile with `foreman` to run the services.
-  This wasn't a deliberate decision and if you think (present your
-  arguments in this case!) that a change may be beneficial, then
-  please [file a bug].
 
 - For docker-gen to pick up the IP address of a container, it
   *must* have an exposed or published port. It doesn't matter
