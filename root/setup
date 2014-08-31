@@ -19,3 +19,5 @@ if [[ -f "$OVERRIDE/$CONFIG" ]]; then
   rm -f "$CONFIG"
   ln -s "$OVERRIDE/$CONFIG" "$CONFIG"
 fi
+
+touch /var/run/haproxy.pid

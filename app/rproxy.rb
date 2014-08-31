@@ -82,4 +82,4 @@ res = res
   .join("\n")
 
 File.write '/app/haproxy.conf', res
-exec '/reload' # Reload HAProxy
+`killall haproxy` # Reload HAProxy
