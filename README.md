@@ -37,6 +37,10 @@ $ docker run -d --net=host -v /var/run/docker.sock:/var/run/docker.sock passcod/
 install LXC and run the Docker daemon with the `-e lxc` option
 (or build Docker from master).
 
+Additionally, it exposes `1/tcp` by default and makes the HAProxy
+statistics HTTP service available from there at all times, so
+you'll want to firewall this.
+
 [docker image]: https://registry.hub.docker.com/u/passcod/rproxy
 [docker/docker#6887]: https://github.com/docker/docker/issues/6887
 
