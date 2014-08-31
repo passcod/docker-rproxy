@@ -80,4 +80,4 @@ res = res
   .join("\n")
 
 File.write '/app/haproxy.conf', res
-exec "/app/reload" # Reload HAProxy
+exec '/reload' # Reload HAProxy
