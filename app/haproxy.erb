@@ -1,5 +1,6 @@
 frontend http
   mode http
+  option httplog
   <% ports[:http].each do |port| %>
   bind :<%= port %>
   <% end %>
