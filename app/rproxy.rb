@@ -23,7 +23,7 @@ class K_
   def slug(conf, with_scheme = true)
     s = [conf.hostname.gsub('.', '-'), conf.port]
     s.unshift(conf.scheme) if with_scheme
-    path = conf.path.sub %r{^/}
+    path = conf.path.sub %r{^/}, ''
     s.push(path.gsub('/', '-')) if path.length > 0
     s.join '_'
   end
