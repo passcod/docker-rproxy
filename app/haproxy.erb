@@ -10,7 +10,7 @@ frontend http
   acl <%= _.slug conf, false %>-uri base_reg -i ^([^/]*.)?<%= Regexp.escape "#{conf.host}#{conf.path}" %>
   <% end %>
 
-  <% configs[:http].each do |conf, _| %>
+  <% configs[:http].each do |conf, conts| %>
   use_backend <%= _.slug conf %> if <%= _.slug conf, false %>-port <%= _.slug conf, false %>-uri
   <% end %>
 
