@@ -33,6 +33,7 @@ frontend tcp
 
 <% (configs[:http].merge configs[:tcp]).each do |conf, conts| %>
 backend <%= _.slug conf %>
+  mode <%= conf.scheme %>
   <% conts.each do |cont|
     next if cont[:addresses].nil?
     addr = cont[:addresses][0] %>
