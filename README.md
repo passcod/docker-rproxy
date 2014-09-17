@@ -32,17 +32,15 @@ $ docker pull passcod/rproxy
 $ docker run -d --net=host -v /var/run/docker.sock:/var/run/docker.sock passcod/rproxy
 ```
 
-`--net=host` will fail under the default backend until
-[docker/docker#6887] is released, so you'll probably want to
-install LXC and run the Docker daemon with the `-e lxc` option
-(or build Docker from master).
+If you are using Docker 1.1.x and below, there is a bug in libcontainer
+which prevents `--net=host` to be used, so you'll need to either upgrade
+to Docker 1.2.0 or above, or run the Docker daemon using `-e lxc`.
 
 Additionally, it exposes `1/tcp` by default and makes the HAProxy
 statistics HTTP service available from there at all times, so
-you'll want to firewall this.
+you may want to firewall this.
 
 [docker image]: https://registry.hub.docker.com/u/passcod/rproxy
-[docker/docker#6887]: https://github.com/docker/docker/issues/6887
 
 ## Usage
 
