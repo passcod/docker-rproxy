@@ -1,4 +1,0 @@
-#!/bin/bash
-/setup
-cd /app
-$(ruby -rubygems -e "puts Gem.user_dir")/bin/foreman start

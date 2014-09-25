@@ -1,5 +1,0 @@
-#!/usr/bin/bash
-
-comm -13 <(pacman -Qg base | cut -d\  -f2) <(pacman -Qg base-devel | cut -d\  -f2) | xargs pacman -R --noconfirm linux-headers
-pacman -Scc --noconfirm
-rm -r /var/cache/pacman/pkg/*
