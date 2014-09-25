@@ -1,0 +1,5 @@
+[template]
+src   = "/app/yaml.tmpl"
+dest  = "/app/docker.yml"
+keys = ["/rproxy"]
+reload_cmd = "/app/rproxy.rb"

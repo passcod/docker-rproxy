@@ -14,6 +14,12 @@ RUN curl -Lo docker-gen.tar.gz https://github.com/jwilder/docker-gen/releases/do
   mv docker-gen /usr/bin/docker-gen &&\
   rm docker-gen.tar.gz
 
+# Confd
+RUN curl -Lo confd.tar.gz https://github.com/kelseyhightower/confd/releases/download/v0.3.0/confd_0.3.0_linux_amd64.tar.gz &&\
+  tar xzvf confd.tar.gz &&\
+  mv confd /usr/bin/confd &&\
+  rm confd.tar.gz
+
 # HAProxy
 RUN pacman -S --noconfirm linux-headers base-devel &&\
   cd /tmp/ &&\
