@@ -32,9 +32,5 @@ EXPOSE 1
 # RProxy
 RUN gem install --no-rdoc --no-ri memoist
 
-# Files // Could we flatten that in a single ADD by having e.g. etc/haproxy folder?
-ADD supervisord.conf /etc/supervisord.conf
-ADD app /app
-ADD haproxy /etc/haproxy/
-
+ADD files/ /
 CMD ["/usr/bin/supervisord"]
