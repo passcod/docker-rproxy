@@ -9,7 +9,7 @@ RUN pacman -S --noconfirm ruby supervisor &&\
   rm -rf /var/cache/pacman/pkg/*
 
 # Docker-gen
-RUN curl -Lo docker-gen.tar.gz https://github.com/jwilder/docker-gen/releases/download/0.3.3/docker-gen-linux-amd64-0.3.3.tar.gz &&\
+RUN curl -Lo docker-gen.tar.gz https://github.com/jwilder/docker-gen/releases/download/0.3.5/docker-gen-linux-amd64-0.3.5.tar.gz &&\
   tar xzvf docker-gen.tar.gz &&\
   mv docker-gen /usr/bin/docker-gen &&\
   rm docker-gen.tar.gz

@@ -1,5 +1,6 @@
 ---
 {{ range $_, $cont := $ }}
+{{ if contains $cont.Env "RPROXY" }}
   {{ $addrLen := len $cont.Addresses }}
   {{ $envLen := len $cont.Env }}
   {{ $regLen := len $cont.Image.Registry }}
@@ -34,4 +35,5 @@
       :tag: "{{ $image.Tag }}"
       {{ end }}
     :name: {{ $cont.Name }}
+{{ end }}
 {{ end }}
